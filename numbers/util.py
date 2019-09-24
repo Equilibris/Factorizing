@@ -1,6 +1,9 @@
 from time import time
 
 def isPrime(num):
+    if str(num).endswith('93'): 
+        pass
+
     for i in range(num-2):
         i
         i += 2

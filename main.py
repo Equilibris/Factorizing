@@ -10,7 +10,7 @@ n2 = numbers.Number.fromInt(1245)
 
 f = n/n2
 
-print(f.value, f.factors)
+print(f.value, f.fractData)
 
 # f = f/numbers.Number.fromFloat(9)
 

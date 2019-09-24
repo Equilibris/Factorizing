@@ -3,7 +3,7 @@ class UnassignmentError(Exception): pass
 class Opperation:
     def __init__(self, oppFCF):
         self.function = oppFCF
-        self.isopp = True
+        self.isopperation = True
     
     def __call__(self,*args,**kwargs):
         return self.function(*args,**kwargs)
@@ -13,7 +13,7 @@ class OpperationFactory:
     @classmethod
     @Opperation
     def add(n1,n2):
-        pass
+        return n1 +n2
 
     @classmethod
     @Opperation

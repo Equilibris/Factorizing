@@ -39,6 +39,13 @@ class Fraction:
 
         return numerator/denominator if denominator != 1 else numerator if denominator != 0 else ZeroDivisionError
 
+    @property
+    def fractData(self):
+        valueData   = self.factors
+        numerator   = listMulti(listCopy(valueData[0]))
+        denominator = listMulti(listCopy(valueData[1]))
+        
+        return [numerator,denominator] 
     def simplyfy(self):
         if not isinstance(self.factors[0],Fraction) and not isinstance(self.factors[1],Fraction):
             commons = correctListListIntersect(self.factors[0],self.factors[1])
