@@ -1,5 +1,6 @@
 from .   Factor import FactorNode
 from .numberABC import NumbersBase
+from .     util import *
 
 class Number(NumbersBase):
     @classmethod
@@ -10,8 +11,13 @@ class Number(NumbersBase):
     def fromFloat(cls,_float):
         from .Fraction import Fraction
 
-        ratio = float(_float).as_integer_ratio()
-        return Fraction.fromSpecal(ratio[0],ratio[1])
+        fData = float(_float)
+        multiplyer = 1
+        
+        while not (fData*multiplyer).is_integer():
+            multiplyer *= 10
+
+        return Fraction.fromSpecal(int(fData*multiplyer),multiplyer)
 
     # __slots__ = ['factors']
 
@@ -19,12 +25,7 @@ class Number(NumbersBase):
         self.factors = factors
 
     @property
-    def value(self):
-        output = 1
-        for num in self.factors:
-            output *= num
-
-        return output
+    def value(self): return listMulti(self.factors)
 
     def __add__(self, other):
         if isinstance(other,Number):

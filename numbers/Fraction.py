@@ -17,7 +17,7 @@ class Fraction:
     def __init__(self, numeratorFactors, denominatorFactors):
         self.factors = [numeratorFactors,denominatorFactors]
         
-        self = self.simplyfy()
+        self.simplyfy()
 
     @property
     def value(self):
@@ -42,8 +42,9 @@ class Fraction:
     @property
     def fractData(self):
         valueData   = self.factors
-        numerator   = listMulti(listCopy(valueData[0]))
-        denominator = listMulti(listCopy(valueData[1]))
+
+        numerator   = listMulti(valueData[0]) if not isinstance(valueData[0],Fraction) else valueData[0].value
+        denominator = listMulti(valueData[1]) if not isinstance(valueData[1],Fraction) else valueData[1].value
         
         return [numerator,denominator] 
     def simplyfy(self):
