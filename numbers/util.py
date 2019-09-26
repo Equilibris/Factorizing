@@ -1,5 +1,7 @@
 from time import time
 
+def listCopy(l1): return l1[:]
+
 def isPrime(num):
     if str(num).endswith('93'): 
         pass
@@ -19,6 +21,20 @@ def listListIntersect(l1,l2):
     return list(s1.intersection(s2))
 
 class ListCountObj:
+    @classmethod
+    def combine(cls,main,other):
+        if isinstance(other,cls) and isinstance(main,cls):
+            l1 = main.asList
+            l2 = other.asList
+
+            l3 = listCopy(l1)
+            l3.extend(l2)
+
+            return cls(l3)
+
+        else:
+            return NotImplemented
+
     def __init__(self, listVar):
         setListBase = list(set(listVar))
 
@@ -29,6 +45,9 @@ class ListCountObj:
     def __getitem__(self,key):
         return self.data[key]
 
+    def __add__(self,other):
+        return self.__class__.combine(self,other)
+
     @property
     def asList(self):
         output = []
@@ -38,6 +57,7 @@ class ListCountObj:
 
         output.sort()
         return output
+
 
 def correctListListIntersect(l1,l2):
     lco1 = ListCountObj(l1)
@@ -52,12 +72,20 @@ def correctListListIntersect(l1,l2):
 
     return list([key for key,value in data.items() for _ in range(value)])
 
-def listCopy(l1):
-    output = []
-    for i in l1:
-        output.append(i)
-    
-    return output
+def bisectBasedCommonRamainderCalculator(l1,l2):
+    lco1 = ListCountObj(l1)
+    lco2 = ListCountObj(l2)
+
+    lowerIntersects = listListIntersect(l1,l2) # combine 
+
+    data = {}
+
+    for element in lowerIntersects:
+        data[element] = max(lco1[element],lco2[element])
+
+    return list([key for key,value in data.items() for _ in range(value)])
+
+
 
 def getFactors(value):
     from .Number   import Number

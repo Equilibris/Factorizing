@@ -3,7 +3,7 @@ from .numberABC import NumbersBase
 from .   Factor import FactorNode
 from .   Number import Number
 from . equation import Equation, OpperationFactory
-from copy       import copy
+from       copy import copy
 # from copy import copy
 
 
@@ -47,6 +47,7 @@ class Fraction:
         denominator = listMulti(valueData[1]) if not isinstance(valueData[1],Fraction) else valueData[1].value
         
         return [numerator,denominator] 
+
     def simplyfy(self):
         if not isinstance(self.factors[0],Fraction) and not isinstance(self.factors[1],Fraction):
             commons = correctListListIntersect(self.factors[0],self.factors[1])
