@@ -1,5 +1,7 @@
 from time import time
 
+# __all__ = []
+
 def listCopy(l1): return l1[:]
 
 def isPrime(num):
@@ -72,18 +74,41 @@ def correctListListIntersect(l1,l2):
 
     return list([key for key,value in data.items() for _ in range(value)])
 
-def bisectBasedCommonRamainderCalculator(l1,l2):
-    lco1 = ListCountObj(l1)
-    lco2 = ListCountObj(l2)
+class CommonRamainderCalculations:
+    @staticmethod
+    def bisectBasedCommonRamainderCalculator(l1,l2):
+        lco1 = ListCountObj(l1)
+        lco2 = ListCountObj(l2)
 
-    lowerIntersects = listListIntersect(l1,l2) # combine 
+        return (lco1+lco2).asList
 
-    data = {}
+        # lowerIntersects = listListIntersect(l1,l2) # combine 
 
-    for element in lowerIntersects:
-        data[element] = max(lco1[element],lco2[element])
+        # data = {}
 
-    return list([key for key,value in data.items() for _ in range(value)])
+        # for element in lowerIntersects:
+        #     data[element] = max(lco1[element],lco2[element])
+
+        # return list([key for key,value in data.items() for _ in range(value)])
+
+    @staticmethod
+    def commonRamainderDistance(l1,commonRamainder):
+        # print(l1,commonRamainder)
+        output = listCopy(commonRamainder)
+        for element in l1:
+            # print(element,end=' . ')
+            output.remove(element)
+            # print(output,end=' | ')
+
+        return output
+
+    @classmethod
+    def calculateCommon(cls,l1,l2):
+        commonRemainder = cls.bisectBasedCommonRamainderCalculator(l1,l2)
+        return [
+            cls.commonRamainderDistance(l1,commonRemainder),
+            cls.commonRamainderDistance(l2,commonRemainder)
+            ]
 
 
 
@@ -116,6 +141,32 @@ def listMulti(l1):
 
     return output
 
+class Memoize:
+    @staticmethod
+    def buildIndex(*args,**kwargs):
+        return f'{args}||{kwargs}'
+
+    @staticmethod
+    def buildID(function):
+        return f'{function.__module__}.{function.__qualname__} ({__name__})'
+
+    memData = {}
+    def __init__(self, function):
+        self.function = function
+        self.id = self.__class__.buildID(self.function)
+        self.__class__.memData[self.id] = {}
+
+    def __call__(self,*args,**kwargs):
+        index = self.__class__.buildIndex(*args,**kwargs)
+        # print(self.__class__.memData)
+
+        if index in self.__class__.memData[self.id].keys():
+            return self.__class__.memData[self.id][index]
+
+        else:
+            out = self.function(*args,**kwargs)
+            self.__class__.memData[self.id][index] = out
+            return out
 
 if __name__ == "__main__":
     from random import randint
@@ -127,6 +178,8 @@ if __name__ == "__main__":
 
     l1 = generateArray(30)
     l2 = generateArray(30)
+
+    print(CommonRamainderCalculations.calculateCommon(l1,l2))
 
     print(listListIntersect(l1,l2))
 

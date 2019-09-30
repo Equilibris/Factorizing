@@ -13,54 +13,58 @@ class FactorNode():
 
 ##    @timer
     def lookIn(self):
-        afterMul = -1 if abs(self.data) != self.data else 1
+        @Memoize
+        def getFactors(data):
+            afterMul = -1 if abs(self.data) != self.data else 1
 
-        if str(self.data).endswith('0'):
-            tempData = int(self.data/10)
-            self.factor.extend([2*afterMul,5])
-
-            loopCount = 1
-
-            while str(tempData).endswith('0'):
+            if str(self.data).endswith('0'):
+                tempData = int(self.data/10)
                 self.factor.extend([2*afterMul,5])
-                tempData = int(tempData//10)
-                loopCount += 1
 
-            self.node = self.__class__(abs(self.data)/10**loopCount)
+                loopCount = 1
 
-        elif str(self.data).endswith('2'):
-            tempData = int(self.data//2)
-            self.factor.extend([2*afterMul])
+                while str(tempData).endswith('0'):
+                    self.factor.extend([2*afterMul,5])
+                    tempData = int(tempData//10)
+                    loopCount += 1
 
-            loopCount = 1
+                self.node = self.__class__(abs(self.data)/10**loopCount)
 
-            while str(tempData).endswith('2'):
-                self.factor.extend([2])
-                tempData = int(tempData//2)
-                loopCount += 1
+            elif str(self.data).endswith('2'):
+                tempData = int(self.data//2)
+                self.factor.extend([2*afterMul])
 
-            self.node = self.__class__(abs(self.data)/2**loopCount)
+                loopCount = 1
 
-        # elif str(self.data).endswith('93'): pass
+                while str(tempData).endswith('2'):
+                    self.factor.extend([2])
+                    tempData = int(tempData//2)
+                    loopCount += 1
 
-        elif not isPrime(self.data):
-            # primes = filter(isPrime, [prime for prime in range(int(abs(self.data)))])
-            # primes = [prime for prime in range(int(abs(self.data))) if isPrime(prime)]
-            # primes = [p for p in range(int(abs(self.data)))]
+                self.node = self.__class__(abs(self.data)/2**loopCount)
 
-            for i in range(int(abs(self.data))):
-                if i != 0 and i != 1:
-                    if self.data/i == self.data//i and i > 1 and int(self.data/i) != 1:
-                    # if self.data % i == 0 and i > 1:
-##                        print(abs(self.data)/i, i)
-                        self.node = self.__class__(abs(self.data)/i)
-                        self.factor.append(i*afterMul)
-                        break
+            # elif str(self.data).endswith('93'): pass
 
-        else:
-            # self.node = None
-            # self.factor.append()
-            pass
+            elif not isPrime(self.data):
+                # primes = filter(isPrime, [prime for prime in range(int(abs(self.data)))])
+                # primes = [prime for prime in range(int(abs(self.data))) if isPrime(prime)]
+                # primes = [p for p in range(int(abs(self.data)))]
+
+                for i in range(int(abs(self.data))):
+                    if i != 0 and i != 1:
+                        if self.data/i == self.data//i and i > 1 and int(self.data/i) != 1:
+                        # if self.data % i == 0 and i > 1:
+                            # print(abs(self.data)/i, i)
+                            self.node = self.__class__(abs(self.data)/i)
+                            self.factor.append(i*afterMul)
+                            break
+
+            else:
+                # self.node = None
+                # self.factor.append()
+                pass
+
+        getFactors(self.data)
 
     # @timer
     def oldLowerNode(self): 

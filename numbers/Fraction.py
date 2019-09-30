@@ -66,18 +66,47 @@ class Fraction:
         return NotImplemented
 
     def __add__(self, other):
-        if isinstance(other,Number) or isinstance(other,int):
-            return Equation.fromSpecal(self,other,OpperationFactory.add)
+        def getFromDual2DList(meFactors,otherFactors):
+            multiplumDistance = CommonRamainderCalculations.calculateCommon(meFactors[1],otherFactors[1])
+
+            # print('me',meFactors,'other',otherFactors, 'distance',multiplumDistance,sep='\n')
+
+            meFactors[0].extend(multiplumDistance[0])
+            meFactors[1].extend(multiplumDistance[0])
+
+            otherFactors[0].extend(multiplumDistance[1])
+            otherFactors[1].extend(multiplumDistance[1])
+
+            numerator = Number.fromInt(listMulti(meFactors[0])+listMulti(otherFactors[0])).factors
+
+            return self.__class__(numerator,meFactors[1]) # calculate multiplum and add
+
+        if isinstance(other,Number):
+            meFactors    = [listCopy(self.factors[0]), listCopy(self.factors[1])]
+            otherFactors = [listCopy(other.factors),   [1]]
+
+            return getFromDual2DList(meFactors,otherFactors)
+
+        elif isinstance(other,int):
+            meFactors    = [listCopy(self.factors[0]),     listCopy(self.factors[1])]
+            otherFactors = [Number.fromInt(other).factors, [1]]
+
+            # print('me',meFactors,'other',otherFactors,sep='\n')
+
+            return getFromDual2DList(meFactors,otherFactors)
+
+        elif isinstance(other,Fraction):
+            meFactors    = [listCopy(self.factors[0]),  listCopy(self.factors[1])]
+            otherFactors = [listCopy(other.factors[0]), listCopy(other.factors[1])]
+
+            return getFromDual2DList(meFactors,otherFactors)
 
         else:
             return NotImplemented
 
     def __sub__(self,other):
-        if isinstance(other,Number) or isinstance(other,int):
-            return Equation.fromSpecal(self,other,OpperationFactory.subtract)
-
-        else:
-            return NotImplemented
+        other = other*-1
+        return self + other
 
     def __mul__(self,other):
         if isinstance(other,Number) or isinstance(other,int) or isinstance(other,FactorNode):
