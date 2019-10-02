@@ -13,7 +13,7 @@ class FactorNode():
 
 ##    @timer
     def lookIn(self):
-        @Memoize
+        # @Memoize
         def getFactors(data):
             afterMul = -1 if abs(self.data) != self.data else 1
 
