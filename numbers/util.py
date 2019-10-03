@@ -148,7 +148,7 @@ class Memoize:
 
     @staticmethod
     def buildID(function):
-        return f'{function.__module__}.{function.__qualname__} ({__name__})'
+        return f'{function.__module__}.{function.__name__}'
 
     memData = {}
     def __init__(self, function):
@@ -160,13 +160,14 @@ class Memoize:
         index = self.__class__.buildIndex(*args,**kwargs)
         # print(self.__class__.memData)
 
-        if index in self.__class__.memData[self.id].keys():
-            return self.__class__.memData[self.id][index]
-
-        else:
+        if index not in self.__class__.memData[self.id].keys():
+            
             out = self.function(*args,**kwargs)
             self.__class__.memData[self.id][index] = out
             return out
+
+        else: return self.__class__.memData[self.id][index]
+            
 
 if __name__ == "__main__":
     from random import randint
