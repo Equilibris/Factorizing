@@ -1,6 +1,5 @@
 import numbers
 
-
 # print(numbers.Equation.fromSpecal(23,25,numbers.OpperationFactory.divide).factors)
 
 n = numbers.Number.fromFloat(20)

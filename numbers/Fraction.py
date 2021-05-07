@@ -9,7 +9,7 @@ from       copy import copy
 
 class Fraction:
     @classmethod
-    def fromSpecal(cls,numerator ,denominator):
+    def fromSpecial(cls,numerator ,denominator):
         return cls(getFactors(numerator),getFactors(denominator))
 
     # __slots__ = ['factors']
@@ -17,7 +17,7 @@ class Fraction:
     def __init__(self, numeratorFactors, denominatorFactors):
         self.factors = [numeratorFactors,denominatorFactors]
         
-        self.simplyfy()
+        self.simplify()
 
     @property
     def value(self):
@@ -48,7 +48,7 @@ class Fraction:
         
         return [numerator,denominator] 
 
-    def simplyfy(self):
+    def simplify(self):
         if not isinstance(self.factors[0],Fraction) and not isinstance(self.factors[1],Fraction):
             commons = correctListListIntersect(self.factors[0],self.factors[1])
 
@@ -161,11 +161,11 @@ class Fraction:
             me = self
             notMe = other
 
-            fracton = Fraction.fromSpecal(self,other)
+            fraction = Fraction.fromSpecial(self,other)
 
             self = me
             other = notMe
-            return fracton
+            return fraction
 
         else:
             otherNumerator = listCopy(other.factors[0])
